@@ -8,7 +8,8 @@
 
 import {Command} from "../lib";
 import {MessageType, TransferTransaction} from "symbol-sdk";
-import {EPOCH_ADJUSTMENT, JOURNAL, NETWORK} from "./commons/Constants";
+import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
+import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 
 describe('Command', () => {
     const PROJECT_NAME = 'Symbol-Dapp-Framework'
@@ -37,12 +38,3 @@ describe('Command', () => {
         }))
     });
 })
-
-class CreateProjectCommand extends Command {
-    static readonly TYPE = 'CreateProject';
-    static readonly VERSION = 1;
-
-    constructor(public readonly name: string) {
-        super(name, JOURNAL, CreateProjectCommand.TYPE, CreateProjectCommand.VERSION)
-    }
-}

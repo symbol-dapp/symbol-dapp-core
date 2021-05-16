@@ -7,3 +7,4 @@
  */
 
 export * from './Command';
+export * from './CommandDispatcher';

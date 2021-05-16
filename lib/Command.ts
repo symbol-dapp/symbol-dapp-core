@@ -8,9 +8,9 @@
 import {Address, Deadline, NetworkType, PlainMessage, Transaction, TransferTransaction} from "symbol-sdk";
 
 export abstract class Command {
-    constructor(public readonly id: String,
+    constructor(public readonly id: string,
                 public readonly journal: Address,
-                public readonly type: String,
+                public readonly type: string,
                 public readonly version: number) {
     }
 
