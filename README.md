@@ -5,8 +5,7 @@ Opinionated Symbol Dapp Framework
 ## Relevant Links
 
 - [NPM Package](https://www.npmjs.com/package/@symbol-dapp/core)
-- [Symbol Dapp Framework Documentation](https://www.notion.so/symboldappframework/Symbol-Dapp-Framework-35ecd1ca6a1e4698a37d4f3ad2fd0b54)
-- [Symbol Blockchain Documentation](https://docs.symbolplatform.com/)
+- [Symbol Dapp Framework Documentation](https://docs.symboldapp.com)
 
 ## Installation
 
@@ -14,7 +13,7 @@ Opinionated Symbol Dapp Framework
 
 ## How to use
 
-WIP
+[Getting Started Guide here](https://docs.symboldapp.com/getting-started)
 
 ## License (See LICENSE file for full license)
 

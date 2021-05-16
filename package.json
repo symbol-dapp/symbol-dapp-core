@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/symbol/dapp/symbol-dapp.git"
+    "url": "git+https://github.com/symbol-dapp/symbol-dapp-core.git"
   },
   "keywords": [
     "symbol",
@@ -21,9 +21,9 @@
   "author": "Aleix Morgadas <aleix@symboldapp.com>",
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/symbol-dapp/symbol-dapp/issues"
+    "url": "https://github.com/symbol-dapp/symbol-dapp-core/issues"
   },
-  "homepage": "https://github.com/symbol-dapp/symbol-dapp#readme",
+  "homepage": "https://github.com/symbol-dapp/symbol-dapp-core#readme",
   "dependencies": {
     "js-sha3": "https://github.com/Propine/js-sha3.git",
     "pouchdb": "^7.2.2",
