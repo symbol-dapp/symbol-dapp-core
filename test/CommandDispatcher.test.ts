@@ -6,9 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {CommandDispatcher} from "../lib/CommandDispatcher";
+import {CommandDispatcher} from "../lib";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
-import {EPOCH_ADJUSTMENT, JOURNAL, NETWORK} from "./commons/Constants";
+import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
 
 describe('CommandDispatcher', () => {
 
