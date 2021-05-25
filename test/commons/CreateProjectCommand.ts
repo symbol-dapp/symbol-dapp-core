@@ -8,12 +8,24 @@
 
 import {Command} from "../../lib";
 import {JOURNAL} from "./Constants";
+import {MessageType, Transaction, TransferTransaction} from "symbol-sdk";
 
 export class CreateProjectCommand extends Command {
     static readonly TYPE = 'CreateProject';
     static readonly VERSION = 1;
 
-    constructor(public readonly name: string) {
-        super(name, JOURNAL, CreateProjectCommand.TYPE, CreateProjectCommand.VERSION)
+    public static of(name: string): CreateProjectCommand {
+        return new CreateProjectCommand(name, JOURNAL, CreateProjectCommand.TYPE, CreateProjectCommand.VERSION, name);
+    }
+
+    public static fromTransaction(transaction: Transaction): CreateProjectCommand {
+        if (!(transaction instanceof TransferTransaction)) {
+            throw Error('Not a TransferTransaction');
+        }
+        if (transaction.message.type !== MessageType.PlainMessage) {
+            throw Error('Does not contain a PlainMessage');
+        }
+        const command: Command = JSON.parse(transaction.message.payload);
+        return new CreateProjectCommand(command.id, command.journal, command.type, command.version, command.data, transaction.signer?.address);
     }
 }

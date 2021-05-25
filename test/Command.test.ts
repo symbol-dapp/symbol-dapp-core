@@ -7,24 +7,24 @@
  */
 
 import {Command} from "../lib";
-import {MessageType, TransferTransaction} from "symbol-sdk";
-import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
+import {Account, MessageType, NetworkType, TransferTransaction} from "symbol-sdk";
+import {EPOCH_ADJUSTMENT, GENERATION_HASH, NETWORK} from "./commons/Constants";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 
 describe('Command', () => {
     const PROJECT_NAME = 'Symbol-Dapp-Framework'
 
     test('ensuring it contains the required spec', () => {
-        const command = new CreateProjectCommand(PROJECT_NAME);
+        const command = CreateProjectCommand.of(PROJECT_NAME);
 
         expect(command.id).toBe(PROJECT_NAME);
         expect(command.type).toBe('CreateProject');
         expect(command.version).toBe(1);
-        expect(command.name).toBe(PROJECT_NAME);
+        expect(command.data).toBe(PROJECT_NAME);
     });
 
     test('toTransaction wraps the Command into a TransferTransaction', () => {
-        const command = new CreateProjectCommand(PROJECT_NAME);
+        const command = CreateProjectCommand.of(PROJECT_NAME);
 
         const transaction = command.toTransaction(EPOCH_ADJUSTMENT, NETWORK) as TransferTransaction;
 
@@ -34,7 +34,23 @@ describe('Command', () => {
             journal: command.journal,
             type: 'CreateProject',
             version: 1,
-            name: PROJECT_NAME
+            data: PROJECT_NAME
         }))
     });
+
+    test('fromTransaction transforms Transaction to CreateProjectCommand', () => {
+        const account = Account.generateNewAccount(NetworkType.TEST_NET);
+        const command = CreateProjectCommand.of(PROJECT_NAME);
+        const transaction = command.toTransaction(EPOCH_ADJUSTMENT, NETWORK);
+
+        const signedTransaction = TransferTransaction.createFromPayload(account.sign(transaction, GENERATION_HASH).payload, false);
+
+        const commandFromTransaction = CreateProjectCommand.fromTransaction(signedTransaction);
+
+        expect(commandFromTransaction.version).toBe(CreateProjectCommand.VERSION);
+        expect(commandFromTransaction.type).toBe(CreateProjectCommand.TYPE);
+        expect(commandFromTransaction.id).toBe(PROJECT_NAME);
+        expect(commandFromTransaction.data).toBe(PROJECT_NAME);
+        expect(commandFromTransaction.signer?.pretty()).toBe(account.address.pretty());
+    })
 })

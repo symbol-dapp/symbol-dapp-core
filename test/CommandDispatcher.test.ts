@@ -30,13 +30,13 @@ describe('CommandDispatcher', () => {
             if (_.type === CreateProjectCommand.TYPE &&
                 _.version === CreateProjectCommand.VERSION &&
                 _.id === 'Symbol-Dapp' &&
-                _.name === 'Symbol-Dapp'
+                _.data === 'Symbol-Dapp'
             ) {
                 expectedCommandParameters = true;
             }
         };
         commandDispatcher.register(CreateProjectCommand.TYPE, handler);
-        const transaction = new CreateProjectCommand('Symbol-Dapp').toTransaction(EPOCH_ADJUSTMENT, NETWORK);
+        const transaction = CreateProjectCommand.of('Symbol-Dapp').toTransaction(EPOCH_ADJUSTMENT, NETWORK);
 
         commandDispatcher.dispatch(transaction);
 

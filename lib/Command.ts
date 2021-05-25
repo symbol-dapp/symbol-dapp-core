@@ -11,7 +11,9 @@ export abstract class Command {
     constructor(public readonly id: string,
                 public readonly journal: Address,
                 public readonly type: string,
-                public readonly version: number) {
+                public readonly version: number,
+                public readonly data: any,
+                public readonly signer: Address | undefined = undefined) {
     }
 
     public toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction {
