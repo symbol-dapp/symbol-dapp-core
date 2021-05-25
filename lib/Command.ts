@@ -7,12 +7,12 @@
  */
 import {Address, Deadline, NetworkType, PlainMessage, Transaction, TransferTransaction} from "symbol-sdk";
 
-export abstract class Command {
+export abstract class Command<DATA> {
     constructor(public readonly id: string,
                 public readonly journal: Address,
                 public readonly type: string,
                 public readonly version: number,
-                public readonly data: any,
+                public readonly data: DATA,
                 public readonly signer: Address | undefined = undefined) {
     }
 

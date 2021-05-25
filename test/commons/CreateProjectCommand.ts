@@ -10,7 +10,7 @@ import {Command} from "../../lib";
 import {JOURNAL} from "./Constants";
 import {MessageType, Transaction, TransferTransaction} from "symbol-sdk";
 
-export class CreateProjectCommand extends Command {
+export class CreateProjectCommand extends Command<string> {
     static readonly TYPE = 'CreateProject';
     static readonly VERSION = 1;
 
@@ -25,7 +25,7 @@ export class CreateProjectCommand extends Command {
         if (transaction.message.type !== MessageType.PlainMessage) {
             throw Error('Does not contain a PlainMessage');
         }
-        const command: Command = JSON.parse(transaction.message.payload);
+        const command: Command<string> = JSON.parse(transaction.message.payload);
         return new CreateProjectCommand(command.id, command.journal, command.type, command.version, command.data, transaction.signer?.address);
     }
 }
