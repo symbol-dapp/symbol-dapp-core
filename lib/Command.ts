@@ -5,7 +5,17 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-import {Address, Deadline, NetworkType, PlainMessage, Transaction, TransferTransaction} from "symbol-sdk";
+import {
+    Address,
+    Deadline,
+    Mosaic,
+    NamespaceId,
+    NetworkType,
+    PlainMessage,
+    Transaction,
+    TransferTransaction,
+    UInt64
+} from "symbol-sdk";
 
 export abstract class Command<DATA> {
     constructor(public readonly id: string,
@@ -20,7 +30,7 @@ export abstract class Command<DATA> {
         return TransferTransaction.create(
             Deadline.create(epochAdjustment),
             this.journal,
-            [],
+            [new Mosaic(new NamespaceId('symbol.xym'), UInt64.fromUint(0))],
             PlainMessage.create(JSON.stringify(this)),
             networkType,
         )
