@@ -31,7 +31,6 @@ describe('Command', () => {
         expect(transaction.message.type).toBe(MessageType.PlainMessage);
         expect(transaction.message.payload).toBe(JSON.stringify({
             id: PROJECT_NAME,
-            journal: command.journal,
             type: 'CreateProject',
             version: 1,
             data: PROJECT_NAME

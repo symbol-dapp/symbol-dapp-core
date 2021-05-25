@@ -27,11 +27,12 @@ export abstract class Command<DATA> {
     }
 
     public toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction {
+        const command = Object.assign({}, this, {journal: undefined});
         return TransferTransaction.create(
             Deadline.create(epochAdjustment),
             this.journal,
             [new Mosaic(new NamespaceId('symbol.xym'), UInt64.fromUint(0))],
-            PlainMessage.create(JSON.stringify(this)),
+            PlainMessage.create(JSON.stringify(command)),
             networkType,
         )
     }
