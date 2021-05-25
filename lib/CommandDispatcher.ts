@@ -9,18 +9,18 @@
 import {Command} from "./Command";
 import {Transaction, TransferTransaction} from "symbol-sdk";
 
-type Handler<COMMAND extends Command> = (command: COMMAND) => void
+type Handler<COMMAND extends Command<any>> = (command: COMMAND) => void
 
 export class CommandDispatcher {
     public readonly handlers = new Map<string, Handler<any>>();
 
-    register<C extends Command>(type: string, handler: Handler<C>) {
+    register<C extends Command<any>>(type: string, handler: Handler<C>) {
         this.handlers.set(type, handler);
     }
 
     dispatch(transaction: Transaction) {
         const message = (transaction as TransferTransaction).message.payload;
-        const command: Command = JSON.parse(message);
+        const command: Command<any> = JSON.parse(message);
         const handler = this.handlers.get(command.type);
         if(handler) handler(command);
     }
