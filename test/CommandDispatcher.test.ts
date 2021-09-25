@@ -5,12 +5,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-
+import { Account, AggregateTransaction, Deadline, EncryptedMessage, NetworkType, PlainMessage, TransferTransaction } from "symbol-sdk";
 import {CommandDispatcher, DispatchLog, Handler} from "../lib";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
-import { Account, AggregateTransaction, Deadline, EncryptedMessage, Message, NetworkType, PlainMessage } from "symbol-sdk";
-import { TransferTransaction } from "symbol-sdk/dist/src/model/transaction/TransferTransaction";
 import { RawCommand } from "../lib/RawCommand";
 
 describe('CommandDispatcher', () => {
@@ -41,8 +39,9 @@ describe('CommandDispatcher', () => {
         commandDispatcher.register(CreateProjectCommand.TYPE, handler);
         const transaction = CreateProjectCommand.of('Symbol-Dapp').toTransaction(EPOCH_ADJUSTMENT, NETWORK);
 
-        commandDispatcher.dispatch(transaction);
+        const dispatched = commandDispatcher.dispatch(transaction);
 
+        expect(dispatched).toBeTruthy();
         expect(beingCalled).toBeTruthy();
         expect(expectedCommandParameters).toBeTruthy();
         expect(commandDispatcher.dispatchingLog[0])
@@ -60,7 +59,10 @@ describe('CommandDispatcher', () => {
                 []
             );
     
-            expect(() => commandDispatcher.dispatch(aggregateTransaction)).not.toThrow();
+            expect(() => {
+                const dispatched = commandDispatcher.dispatch(aggregateTransaction);
+                expect(dispatched).toBeFalsy();
+            }).not.toThrow();
             expect(commandDispatcher.dispatchingLog[0])
                 .toStrictEqual(new DispatchLog(aggregateTransaction, false, 'Only Transfer Transactions Supported'))
         });

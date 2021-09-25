@@ -31,19 +31,21 @@ export class CommandDispatcher {
     dispatch(transaction: Transaction) {
         if (transaction.type != TransactionType.TRANSFER) {
             this.dispatchingLog.push(new DispatchLog(transaction, false, 'Only Transfer Transactions Supported'))
-            return;
+            return false;
         };
         const transferTransaction = transaction as TransferTransaction;
         const { error, command } = this.extractCommand(transferTransaction);
         if (error) {
             this.dispatchingLog.push(error);
-            return;
+            return false;
         }
         const handler = this.handlers.get(command!.type);
         if(handler) {
             this.dispatchingLog.push(new DispatchLog(transaction, true,))
             handler(command!);
+            return true;
         }
+        return false;
     }
 
     private extractCommand(transaction: TransferTransaction): {error?: DispatchLog, command?: RawCommand<any> } {
