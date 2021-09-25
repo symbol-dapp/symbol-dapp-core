@@ -6,7 +6,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {Account, MessageType, NetworkType, TransferTransaction} from "symbol-sdk";
+import {Account, MessageType, NetworkType, Transaction, TransferTransaction} from "symbol-sdk";
 import {EPOCH_ADJUSTMENT, GENERATION_HASH, NETWORK} from "./commons/Constants";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 
@@ -43,7 +43,7 @@ describe('Command', () => {
 
         const signedTransaction = TransferTransaction.createFromPayload(account.sign(transaction, GENERATION_HASH).payload, false);
 
-        const commandFromTransaction = CreateProjectCommand.fromTransaction(signedTransaction);
+        const commandFromTransaction = CreateProjectCommand.fromTransaction(signedTransaction as TransferTransaction);
 
         expect(commandFromTransaction.version).toBe(CreateProjectCommand.VERSION);
         expect(commandFromTransaction.type).toBe(CreateProjectCommand.TYPE);
