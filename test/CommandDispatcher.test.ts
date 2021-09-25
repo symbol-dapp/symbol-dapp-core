@@ -6,17 +6,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {CommandDispatcher, DispatchLog} from "../lib";
+import {CommandDispatcher, DispatchLog, Handler} from "../lib";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
 import { Account, AggregateTransaction, Deadline, EncryptedMessage, Message, NetworkType, PlainMessage } from "symbol-sdk";
 import { TransferTransaction } from "symbol-sdk/dist/src/model/transaction/TransferTransaction";
+import { RawCommand } from "../lib/RawCommand";
 
 describe('CommandDispatcher', () => {
 
     test('Registers a Command Handler', () => {
         const commandDispatcher = new CommandDispatcher();
-        const handler = (_: CreateProjectCommand) => {
+        const handler = (command: RawCommand<string>) => {
         };
         commandDispatcher.register(CreateProjectCommand.TYPE, handler);
 
@@ -27,7 +28,7 @@ describe('CommandDispatcher', () => {
         const commandDispatcher = new CommandDispatcher();
         let beingCalled = false;
         let expectedCommandParameters = false;
-        const handler = (_: CreateProjectCommand) => {
+        const handler  = (_: RawCommand<string>) => {
             beingCalled = true;
             if (_.type === CreateProjectCommand.TYPE &&
                 _.version === CreateProjectCommand.VERSION &&

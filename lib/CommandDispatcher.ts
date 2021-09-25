@@ -8,8 +8,9 @@
 
 import {Command} from "./Command";
 import {Message, MessageType, Transaction, TransactionType, TransferTransaction} from "symbol-sdk";
+import { RawCommand } from "./RawCommand";
 
-type Handler<COMMAND extends Command<any>> = (command: COMMAND) => void
+export type Handler<C> = (command: RawCommand<C>) => void
 
 export class DispatchLog {
     constructor(
@@ -23,7 +24,7 @@ export class CommandDispatcher {
     public readonly handlers = new Map<string, Handler<any>>();
     public readonly dispatchingLog = [] as DispatchLog[];
 
-    register<C extends Command<any>>(type: string, handler: Handler<C>) {
+    register<C>(type: string, handler: Handler<C>) {
         this.handlers.set(type, handler);
     }
 
@@ -41,11 +42,11 @@ export class CommandDispatcher {
         const handler = this.handlers.get(command!.type);
         if(handler) {
             this.dispatchingLog.push(new DispatchLog(transaction, true,))
-            handler(command);
+            handler(command!);
         }
     }
 
-    private extractCommand(transaction: TransferTransaction): {error?: DispatchLog, command?: Command<any> } {
+    private extractCommand(transaction: TransferTransaction): {error?: DispatchLog, command?: RawCommand<any> } {
         if (transaction.message.type == MessageType.EncryptedMessage) {
             return {
                 error: new DispatchLog(transaction, false, 'Encrypted Payloads Not Supported'),
@@ -68,7 +69,7 @@ export class CommandDispatcher {
         }
         return {
             error: undefined,
-            command: command
+            command: {...command, signer: transaction.signer }
         }
     }
 }

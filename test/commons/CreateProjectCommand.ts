@@ -18,13 +18,7 @@ export class CreateProjectCommand extends Command<string> {
         return new CreateProjectCommand(name, JOURNAL, CreateProjectCommand.TYPE, CreateProjectCommand.VERSION, name);
     }
 
-    public static fromTransaction(transaction: Transaction): CreateProjectCommand {
-        if (!(transaction instanceof TransferTransaction)) {
-            throw Error('Not a TransferTransaction');
-        }
-        if (transaction.message.type !== MessageType.PlainMessage) {
-            throw Error('Does not contain a PlainMessage');
-        }
+    public static fromTransaction(transaction: TransferTransaction): CreateProjectCommand {
         const command: Command<string> = JSON.parse(transaction.message.payload);
         return new CreateProjectCommand(command.id, command.journal, command.type, command.version, command.data, transaction.signer?.address);
     }

@@ -27,7 +27,7 @@ export abstract class Command<DATA> {
     }
 
     public toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction {
-        const command = Object.assign({}, this, {journal: undefined});
+        const command = Object.assign({}, this, {journal: undefined, singer: undefined});
         return TransferTransaction.create(
             Deadline.create(epochAdjustment),
             this.journal,
