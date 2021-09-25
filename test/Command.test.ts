@@ -6,7 +6,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {Command} from "../lib";
 import {Account, MessageType, NetworkType, TransferTransaction} from "symbol-sdk";
 import {EPOCH_ADJUSTMENT, GENERATION_HASH, NETWORK} from "./commons/Constants";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
