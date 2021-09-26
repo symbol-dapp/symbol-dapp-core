@@ -7,4 +7,6 @@
  */
 
 export * from './Command';
+export * from './PlainCommand';
+export * from './MosaicCommand';
 export * from './CommandDispatcher';

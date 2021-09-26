@@ -26,14 +26,5 @@ export abstract class Command<DATA> {
                 public readonly signer: Address | undefined = undefined) {
     }
 
-    public toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction {
-        const command = Object.assign({}, this, {journal: undefined, singer: undefined});
-        return TransferTransaction.create(
-            Deadline.create(epochAdjustment),
-            this.journal,
-            [new Mosaic(new NamespaceId('symbol.xym'), UInt64.fromUint(0))],
-            PlainMessage.create(JSON.stringify(command)),
-            networkType,
-        )
-    }
+    abstract toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction;
 }

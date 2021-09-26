@@ -6,11 +6,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {Command} from "../../lib";
+import {PlainCommand} from "../../lib";
 import {JOURNAL} from "./Constants";
 import {MessageType, Transaction, TransferTransaction} from "symbol-sdk";
 
-export class CreateProjectCommand extends Command<string> {
+export class CreateProjectCommand extends PlainCommand<string> {
     static readonly TYPE = 'CreateProject';
     static readonly VERSION = 1;
 
@@ -19,7 +19,7 @@ export class CreateProjectCommand extends Command<string> {
     }
 
     public static fromTransaction(transaction: TransferTransaction): CreateProjectCommand {
-        const command: Command<string> = JSON.parse(transaction.message.payload);
+        const command: PlainCommand<string> = JSON.parse(transaction.message.payload);
         return new CreateProjectCommand(command.id, command.journal, command.type, command.version, command.data, transaction.signer?.address);
     }
 }

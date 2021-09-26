@@ -10,7 +10,7 @@ import {Account, MessageType, NetworkType, Transaction, TransferTransaction} fro
 import {EPOCH_ADJUSTMENT, GENERATION_HASH, NETWORK} from "./commons/Constants";
 import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 
-describe('Command', () => {
+describe('PlainCommand', () => {
     const PROJECT_NAME = 'Symbol-Dapp-Framework'
 
     test('ensuring it contains the required spec', () => {
