@@ -12,6 +12,7 @@ import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
 import { RawCommand } from "../lib/RawCommand";
 
 describe('CommandDispatcher', () => {
+    const ACCOUNT = Account.generateNewAccount(NetworkType.TEST_NET);
 
     test('Registers a Command Handler', () => {
         const commandDispatcher = new CommandDispatcher();
@@ -48,8 +49,40 @@ describe('CommandDispatcher', () => {
             .toStrictEqual(new DispatchLog(transaction, true,))
     });
 
+
+    test('Command Handler dispatches the Command Wrapped into a Aggregate Transaction into the CommandHandler', () => {
+        const commandDispatcher = new CommandDispatcher();
+        let beingCalled = false;
+        let expectedCommandParameters = false;
+        const handler  = (_: RawCommand<string>) => {
+            beingCalled = true;
+            if (_.type === CreateProjectCommand.TYPE &&
+                _.version === CreateProjectCommand.VERSION &&
+                _.id === 'Symbol-Dapp' &&
+                _.data === 'Symbol-Dapp'
+            ) {
+                expectedCommandParameters = true;
+            }
+        };
+        commandDispatcher.register(CreateProjectCommand.TYPE, handler);
+        const transaction = CreateProjectCommand.of('Symbol-Dapp').toTransaction(EPOCH_ADJUSTMENT, NETWORK);
+        
+        const aggregateTransaction = AggregateTransaction.createBonded(
+            Deadline.create(EPOCH_ADJUSTMENT),
+            [transaction.toAggregate(ACCOUNT.publicAccount)],
+            NetworkType.TEST_NET,
+        );
+
+        const dispatched = commandDispatcher.dispatch(aggregateTransaction);
+
+        expect(dispatched).toBeTruthy();
+        expect(beingCalled).toBeTruthy();
+        expect(expectedCommandParameters).toBeTruthy();
+        expect(commandDispatcher.dispatchingLog).toHaveLength(1);
+    });
+
     describe('Command Handler ignore non Commands Transactions', () => {
-        test('Transaction not being a Transfer Transaction', () => {
+        test.skip('Transaction not being a Transfer Transaction', () => {
             const commandDispatcher = new CommandDispatcher();
     
             const aggregateTransaction = AggregateTransaction.createComplete(
@@ -64,7 +97,7 @@ describe('CommandDispatcher', () => {
                 expect(dispatched).toBeFalsy();
             }).not.toThrow();
             expect(commandDispatcher.dispatchingLog[0])
-                .toStrictEqual(new DispatchLog(aggregateTransaction, false, 'Only Transfer Transactions Supported'))
+                .toStrictEqual(new DispatchLog(aggregateTransaction, false, 'Only Transfer or Aggregate Transactions Supported'))
         });
 
         test('Transfer Transaction not containing any message', () => {

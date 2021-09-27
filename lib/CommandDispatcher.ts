@@ -7,7 +7,7 @@
  */
 
 import {Command} from "./Command";
-import {Message, MessageType, Transaction, TransactionType, TransferTransaction} from "symbol-sdk";
+import {AggregateTransaction, Message, MessageType, Transaction, TransactionType, TransferTransaction} from "symbol-sdk";
 import { RawCommand } from "./RawCommand";
 
 export type Handler<C> = (command: RawCommand<C>) => void
@@ -28,13 +28,32 @@ export class CommandDispatcher {
         this.handlers.set(type, handler);
     }
 
-    dispatch(transaction: Transaction) {
-        if (transaction.type != TransactionType.TRANSFER) {
-            this.dispatchingLog.push(new DispatchLog(transaction, false, 'Only Transfer Transactions Supported'))
+    dispatch(transaction: Transaction): boolean {
+        if (transaction.type != TransactionType.TRANSFER && transaction.type != TransactionType.AGGREGATE_BONDED && transaction.type != TransactionType.AGGREGATE_COMPLETE) {
+            this.dispatchingLog.push(new DispatchLog(transaction, false, 'Only Transfer or Aggregate Transactions Supported'))
             return false;
         };
-        const transferTransaction = transaction as TransferTransaction;
-        const { error, command } = this.extractCommand(transferTransaction);
+        if (transaction.type === TransactionType.TRANSFER) {
+            return this.dispatchSingle(transaction as TransferTransaction);
+        }
+        if (transaction.type === TransactionType.AGGREGATE_BONDED || transaction.type === TransactionType.AGGREGATE_COMPLETE) {
+            const transactions = (transaction as AggregateTransaction).innerTransactions;
+            var oneReturned = false;
+            transactions.forEach(transaction => {
+                if (transaction.type === TransactionType.TRANSFER) {
+                    const result = this.dispatchSingle(transaction as TransferTransaction)
+                    if (result) {
+                        oneReturned = true;
+                    }
+                }
+            });
+            return oneReturned;
+        }
+        return false;
+    }
+
+    private dispatchSingle(transaction: TransferTransaction): boolean {
+        const { error, command } = this.extractCommand(transaction);
         if (error) {
             this.dispatchingLog.push(error);
             return false;
