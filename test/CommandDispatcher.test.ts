@@ -117,6 +117,23 @@ describe('CommandDispatcher', () => {
                 .toStrictEqual(new DispatchLog(transaction, false, 'Transfer Transaction does not contain a Command payload'))
         });
 
+        test('Transfer Transaction containing a non JSON message', () => {
+            const commandDispatcher = new CommandDispatcher();
+            const account = Account.generateNewAccount(NetworkType.TEST_NET);
+            
+            const transaction = TransferTransaction.create(
+                Deadline.create(EPOCH_ADJUSTMENT),
+                account.address,
+                [],
+                PlainMessage.create('Hi there'),
+                NETWORK
+            );
+    
+            expect(() => commandDispatcher.dispatch(transaction)).not.toThrow();
+            expect(commandDispatcher.dispatchingLog[0])
+                .toStrictEqual(new DispatchLog(transaction, false, 'Transfer Transaction does not contain a Command payload'))
+        });
+
         test('Transfer Transaction containing a encrypted message', () => {
             const commandDispatcher = new CommandDispatcher();
             const account = Account.generateNewAccount(NetworkType.TEST_NET);

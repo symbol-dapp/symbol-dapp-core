@@ -80,17 +80,24 @@ export class CommandDispatcher {
                 command: undefined
             }
         }
-        const command = JSON.parse(transaction.message.payload);
-        const keys = Object.keys(command);
-        if(['id', 'type', 'version', 'data'].some(key => !keys.includes(key))) {
+        try {
+            const command = JSON.parse(transaction.message.payload);
+            const keys = Object.keys(command);
+            if(['id', 'type', 'version', 'data'].some(key => !keys.includes(key))) {
+                return {
+                    error: new DispatchLog(transaction, false, 'Invalid Command Payload'),
+                    command: undefined
+                }
+            }
             return {
-                error: new DispatchLog(transaction, false, 'Invalid Command Payload'),
+                error: undefined,
+                command: {...command, signer: transaction.signer }
+            }
+        } catch (e) {
+            return {
+                error: new DispatchLog(transaction, false, 'Transfer Transaction does not contain a Command payload'),
                 command: undefined
             }
-        }
-        return {
-            error: undefined,
-            command: {...command, signer: transaction.signer }
-        }
+        }  
     }
 }
