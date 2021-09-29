@@ -17,23 +17,15 @@ import {
 } from "symbol-sdk";
 import { Command } from ".";
 
-export abstract class AggregateCommand extends Command<Command<any>[]> {
-  constructor(public readonly id: string,
-              public readonly journal: Address,
-              public readonly type: string,
-              public readonly version: number,
-              public readonly data: Command<any>[],
+export abstract class AggregateCommand {
+  constructor(public readonly commands: Command<any>[],
               public readonly signer: PublicAccount) {
-    super(id, journal, type, version, data, signer);
   }
-
-  private account = Account.createFromPrivateKey('ABB4960660ED05F49A9D07C2D061C2BE304859C98652B8E2E3C37010C87D7A6A', NetworkType.TEST_NET);
 
   public toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction {
       return AggregateTransaction.createComplete(
         Deadline.create(epochAdjustment),
-        this.data
-          .map(commands => commands.toTransaction(epochAdjustment, networkType).toAggregate(this.signer)),
+        this.commands.map(command => command.toTransaction(epochAdjustment, networkType).toAggregate(this.signer)),
         networkType,
         [],
         UInt64.fromUint(200000)

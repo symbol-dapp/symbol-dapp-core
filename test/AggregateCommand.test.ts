@@ -18,10 +18,8 @@ describe('AggregateCommand', () => {
     test('ensuring it contains the required spec', () => {
         const command = CreatePlusDonationCommand.of(PROJECT_NAME, PUBLIC_ACCOUNT);
 
-        expect(command.id).toBe(PROJECT_NAME);
-        expect(command.type).toBe('CreatePlusDonationCommand');
-        expect(command.version).toBe(1);
-        expect(command.data).toHaveLength(2);
+        expect(command.commands).toHaveLength(2);
+        expect(command.signer).toBe(PUBLIC_ACCOUNT);
     });
 
     test('toTransaction wraps the Command into a TransferTransaction', () => {
