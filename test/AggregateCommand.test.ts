@@ -6,10 +6,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-import {Account, MessageType, Mosaic, NamespaceId, NetworkType, PublicAccount, Transaction, TransactionType, TransferTransaction, UInt64} from "symbol-sdk";
-import {EPOCH_ADJUSTMENT, GENERATION_HASH, NETWORK} from "./commons/Constants";
+import {Account, Mosaic, NamespaceId, NetworkType, TransactionType, UInt64} from "symbol-sdk";
+import {EPOCH_ADJUSTMENT, NETWORK} from "./commons/Constants";
 import { CreatePlusDonationCommand } from "./commons/CreationPlusDonationCommand";
-import { DonationCommand } from "./commons/DonationCommand";
 
 describe('AggregateCommand', () => {
     const PROJECT_NAME = 'Symbol-Dapp-Framework'

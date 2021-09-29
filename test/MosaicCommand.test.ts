@@ -53,6 +53,6 @@ describe('MosaicCommand', () => {
         expect(commandFromTransaction.id).toBe(PROJECT_NAME);
         expect(commandFromTransaction.data).toBe(PROJECT_NAME);
         expect(commandFromTransaction.mosaics).toHaveLength(1);
-        expect(commandFromTransaction.signer?.pretty()).toBe(account.address.pretty());
+        expect(commandFromTransaction.signer?.address.pretty()).toBe(account.address.pretty());
     })
 })

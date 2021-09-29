@@ -49,6 +49,6 @@ describe('PlainCommand', () => {
         expect(commandFromTransaction.type).toBe(CreateProjectCommand.TYPE);
         expect(commandFromTransaction.id).toBe(PROJECT_NAME);
         expect(commandFromTransaction.data).toBe(PROJECT_NAME);
-        expect(commandFromTransaction.signer?.pretty()).toBe(account.address.pretty());
+        expect(commandFromTransaction.signer?.address.pretty()).toBe(account.address.pretty());
     })
 })

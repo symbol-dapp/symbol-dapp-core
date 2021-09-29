@@ -20,6 +20,6 @@ export class CreateProjectCommand extends PlainCommand<string> {
 
     public static fromTransaction(transaction: TransferTransaction): CreateProjectCommand {
         const command: PlainCommand<string> = JSON.parse(transaction.message.payload);
-        return new CreateProjectCommand(command.id, command.journal, command.type, command.version, command.data, transaction.signer?.address);
+        return new CreateProjectCommand(command.id, command.journal, command.type, command.version, command.data, transaction.signer);
     }
 }

@@ -20,6 +20,6 @@ export class DonationCommand extends MosaicCommand<string> {
 
     public static fromTransaction(transaction: TransferTransaction): DonationCommand {
         const command: MosaicCommand<string> = JSON.parse(transaction.message.payload);
-        return new DonationCommand(command.id, command.journal, command.type, command.version, command.data, transaction.mosaics, transaction.signer?.address);
+        return new DonationCommand(command.id, command.journal, command.type, command.version, command.data, transaction.mosaics, transaction.signer);
     }
 }
