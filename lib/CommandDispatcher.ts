@@ -91,7 +91,7 @@ export class CommandDispatcher {
             }
             return {
                 error: undefined,
-                command: {...command, signer: transaction.signer }
+                command: {...command, signer: transaction.signer! }
             }
         } catch (e) {
             return {

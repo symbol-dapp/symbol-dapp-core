@@ -12,6 +12,7 @@ import {
   NamespaceId,
   NetworkType,
   PlainMessage,
+  PublicAccount,
   Transaction,
   TransferTransaction,
   UInt64
@@ -25,7 +26,7 @@ export abstract class MosaicCommand<DATA> extends Command<DATA> {
               public readonly version: number,
               public readonly data: DATA,
               public readonly mosaics: Mosaic[],
-              public readonly signer: Address | undefined = undefined) {
+              public readonly signer: PublicAccount | undefined = undefined) {
     super(id, journal, type, version, data, signer);
   }
 

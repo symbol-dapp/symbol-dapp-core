@@ -6,37 +6,37 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 import {
+  Account,
   Address,
+  AggregateTransaction,
   Deadline,
-  Mosaic,
-  NamespaceId,
   NetworkType,
-  PlainMessage,
   PublicAccount,
   Transaction,
-  TransferTransaction,
-  UInt64
+  UInt64,
 } from "symbol-sdk";
 import { Command } from ".";
 
-export abstract class PlainCommand<DATA> extends Command<DATA> {
+export abstract class AggregateCommand extends Command<Command<any>[]> {
   constructor(public readonly id: string,
               public readonly journal: Address,
               public readonly type: string,
               public readonly version: number,
-              public readonly data: DATA,
-              public readonly signer: PublicAccount | undefined = undefined) {
+              public readonly data: Command<any>[],
+              public readonly signer: PublicAccount) {
     super(id, journal, type, version, data, signer);
   }
 
+  private account = Account.createFromPrivateKey('ABB4960660ED05F49A9D07C2D061C2BE304859C98652B8E2E3C37010C87D7A6A', NetworkType.TEST_NET);
+
   public toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction {
-      const command = Object.assign({}, this, {journal: undefined, singer: undefined});
-      return TransferTransaction.create(
-          Deadline.create(epochAdjustment),
-          this.journal,
-          [new Mosaic(new NamespaceId('symbol.xym'), UInt64.fromUint(0))],
-          PlainMessage.create(JSON.stringify(command)),
-          networkType,
-      )
+      return AggregateTransaction.createComplete(
+        Deadline.create(epochAdjustment),
+        this.data
+          .map(commands => commands.toTransaction(epochAdjustment, networkType).toAggregate(this.signer)),
+        networkType,
+        [],
+        UInt64.fromUint(200000)
+      );
   }
 }

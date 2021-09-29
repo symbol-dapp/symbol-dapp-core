@@ -4068,10 +4068,10 @@ symbol-openapi-typescript-fetch-client@0.11.2:
   resolved "https://registry.yarnpkg.com/symbol-openapi-typescript-fetch-client/-/symbol-openapi-typescript-fetch-client-0.11.2.tgz#c34b1a2345b567645b802b79b6e8431281a4c938"
   integrity sha512-A1MAN8/UWlaCEibBf6zxkduZwDNSvWwLPp6JB0GeYI/FAOrw/9nLyuS/NJQ3siGAUclnuejH1wG7KdUg0/4RSw==
 
-symbol-sdk@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-1.0.0.tgz#3d74b76f2ce46b7629d4e653e75e1d0b47789e69"
-  integrity sha512-j7HR5288sNXLHAMRWc6VgXiVBiyY6FJ0b+ug//cJPg63beKF+ZJkAZbzcrQqdrMTuGhIy80jG9HFodQIthLoUg==
+symbol-sdk@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/symbol-sdk/-/symbol-sdk-1.0.1.tgz#d401bad7deccdb4a9ea225bb30847fbffd31e698"
+  integrity sha512-G4sdGBfggTSqKs9XchMQAtOfl80Z2eARafxZnzje5qxzfUSQUCFYdBP7IJiA2PDoeyfXJJpzWWTlgq9EzvKm1A==
   dependencies:
     "@js-joda/core" "^3.2.0"
     bluebird "^3.7.2"
@@ -4091,6 +4091,7 @@ symbol-sdk@^1.0.0:
     rxjs-compat "^6.6.3"
     symbol-openapi-typescript-fetch-client "0.11.2"
     tweetnacl "^1.0.3"
+    utf8 "^2.1.2"
     ws "^7.3.1"
 
 symbol-tree@^3.2.4:
@@ -4335,6 +4336,11 @@ utf8@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/utf8/-/utf8-3.0.0.tgz#f052eed1364d696e769ef058b183df88c87f69d1"
   integrity sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ==
+
+utf8@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/utf8/-/utf8-2.1.2.tgz#1fa0d9270e9be850d9b05027f63519bf46457d96"
+  integrity sha1-H6DZJw6b6FDZsFAn9jUZv0ZFfZY=
 
 util-deprecate@^1.0.1:
   version "1.0.2"

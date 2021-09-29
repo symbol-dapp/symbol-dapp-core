@@ -1,6 +1,6 @@
 {
   "name": "@symbol-dapp/core",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Opinionated Symbol Dapp Framework",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   "dependencies": {
     "js-sha3": "https://github.com/Propine/js-sha3.git",
     "pouchdb": "^7.2.2",
-    "symbol-sdk": "^1.0.0"
+    "symbol-sdk": "^1.0.1"
   },
   "devDependencies": {
     "@types/jest": "^26.0.22",

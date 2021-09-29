@@ -8,7 +8,6 @@
 
 import {Account, MessageType, Mosaic, NamespaceId, NetworkType, Transaction, TransferTransaction, UInt64} from "symbol-sdk";
 import {EPOCH_ADJUSTMENT, GENERATION_HASH, NETWORK} from "./commons/Constants";
-import {CreateProjectCommand} from "./commons/CreateProjectCommand";
 import { DonationCommand } from "./commons/DonationCommand";
 
 describe('MosaicCommand', () => {

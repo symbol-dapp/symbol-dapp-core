@@ -7,14 +7,9 @@
  */
 import {
     Address,
-    Deadline,
-    Mosaic,
-    NamespaceId,
     NetworkType,
-    PlainMessage,
-    Transaction,
-    TransferTransaction,
-    UInt64
+    PublicAccount,
+    Transaction
 } from "symbol-sdk";
 
 export abstract class Command<DATA> {
@@ -23,7 +18,7 @@ export abstract class Command<DATA> {
                 public readonly type: string,
                 public readonly version: number,
                 public readonly data: DATA,
-                public readonly signer: Address | undefined = undefined) {
+                public readonly signer: PublicAccount | undefined = undefined) {
     }
 
     abstract toTransaction(epochAdjustment: number, networkType: NetworkType): Transaction;
