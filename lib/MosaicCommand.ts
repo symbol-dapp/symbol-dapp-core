@@ -38,7 +38,6 @@ export abstract class MosaicCommand<DATA> extends Command<DATA> {
           this.mosaics,
           PlainMessage.create(JSON.stringify(command)),
           networkType,
-          UInt64.fromUint(15000)
       )
   }
 }

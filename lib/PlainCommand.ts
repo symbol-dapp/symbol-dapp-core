@@ -37,7 +37,6 @@ export abstract class PlainCommand<DATA> extends Command<DATA> {
           [new Mosaic(new NamespaceId('symbol.xym'), UInt64.fromUint(0))],
           PlainMessage.create(JSON.stringify(command)),
           networkType,
-          UInt64.fromUint(15000)
       )
   }
 }
