@@ -28,7 +28,7 @@ export abstract class AggregateCommand {
         this.commands.map(command => command.toTransaction(epochAdjustment, networkType).toAggregate(this.signer)),
         networkType,
         [],
-        UInt64.fromUint(200000)
+        UInt64.fromUint(15000)
       );
   }
 }
